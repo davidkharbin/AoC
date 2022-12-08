@@ -1,3 +1,5 @@
+export {}
+
 const fs = require('fs');
 
 const file = fs.readFileSync('./input.txt', 'utf8', (err, data) => { }).split('\n\n')
