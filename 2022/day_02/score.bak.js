@@ -1,16 +1,13 @@
 const fs = require('fs')
-
+const path = './input.txt'
 const input = fs
-	.readFileSync('./input.txt', 'utf8', (err, data) => { })
-	.split('\n')
-	.map((line) => line.split(' '))
+	.readFileSync(path, 'utf8') .split('\n') .map((line) => line.split(' '))
 
 ////////////////////////////////////////////////////////////////
 /**
  * Part One
  */
 ////////////////////////////////////////////////////////////////
-console.log(input);
 const points = {
 	X: 1, Y: 2, Z: 3,
 
@@ -22,6 +19,7 @@ const points = {
 }
 
 const getScore = (plays) => {
+
 	let opponentPoint = plays[0]
 	let myPoint = plays[1]
 	let winnerScore = `${opponentPoint}${myPoint}`
