@@ -1,9 +1,11 @@
 export {};
 const fs = require("fs");
 const path = "./input.txt";
+// const path = "./inputShort.txt";
 
 const input: string[] = fs.readFileSync(path, "utf8").split("\n");
-const procedures: any = input.map((line) => {
+
+const procedures: number[][] = input.map((line) => {
   return line
     .split(" ")
     .filter((element: any) => !isNaN(element))
@@ -15,7 +17,7 @@ interface Stack {
 }
 
 // Part one (crane moves one crate at a time)
-const moveBoxes = (arr: string[]) => {
+const moveBoxes = (arr: number[][]) => {
   const stacks: Stack = {
     1: ["F", "C", "P", "G", "Q", "R"],
     2: ["W", "T", "C", "P"],
@@ -28,9 +30,9 @@ const moveBoxes = (arr: string[]) => {
     9: ["G", "V", "Z", "Q", "H", "T", "C", "W"],
   };
 
-  arr.forEach((procedure: string) => {
+  arr.forEach((procedure: number[]) => {
     let count: number = Number(procedure[0]); // this many times
-    let fromStack: string = procedure[1]; // from this stack
+    let fromStack: number = procedure[1]; // from this stack
     let toStack = procedure[2]; // to this stack:
 
     while (count) {
@@ -44,7 +46,7 @@ const moveBoxes = (arr: string[]) => {
 };
 
 // Part two: crate moves multiple crates at once
-const moveMultipleBoxes = (arr: string[]) => {
+const moveMultipleBoxes = (arr: number[][]) => {
   const stacks: Stack = {
     1: ["F", "C", "P", "G", "Q", "R"],
     2: ["W", "T", "C", "P"],
@@ -56,29 +58,44 @@ const moveMultipleBoxes = (arr: string[]) => {
     8: ["N", "L", "H", "C", "F", "P", "T", "J"],
     9: ["G", "V", "Z", "Q", "H", "T", "C", "W"],
   };
+  // const stacks: Stack = {
+  //   1: ["z", "n"],
+  //   2: ["m", "c", "d"],
+  //   3: ["p"],
+  // };
 
-  arr.forEach((procedure: string) => {
-    let count: number = Number(procedure[0]); // this many crates
-    let fromStack: string = procedure[1]; // from this stack
-    let toStack: string = procedure[2]; // to this stack:
+  arr.forEach((procedure: number[]) => {
+    let count: number = procedure[0]; // this many crates
+    let fromStack: string = String(procedure[1]); // from this stack
+    let toStack: string = String(procedure[2]); // to this stack:
+    console.log("before", stacks);
+    console.log(count, stacks[fromStack]);
+    console.log(count, stacks[toStack]);
 
-    let crates = stacks[fromStack].slice(count);
-    stacks[fromStack] = stacks[fromStack].slice(0, count);
-    stacks[toStack] = [...toStack, ...crates];
+    let load = stacks[fromStack].slice(-count);
+    console.log("load", load);
+    while (count) {
+      stacks[fromStack].pop();
+      count--;
+    }
+
+    stacks[toStack] = [...stacks[toStack], ...load];
+    console.log("after", stacks);
   });
-
   return stacks;
 };
 
 const getTopCrates = (finishedStack: Stack) => {
   let topCrates: string = "";
   for (let i = 1; i <= 9; i++) {
-    let lastItem = stacks[i][stacks[i].length - 1];
+    let lastItem = finishedStack[i][finishedStack[i].length - 1];
     topCrates += lastItem;
   }
   return topCrates;
 };
 
-const stacks = moveBoxes(procedures);
+const stacks9000 = moveBoxes(procedures);
+const stacks9001 = moveMultipleBoxes(procedures);
 
-console.log(getTopCrates(stacks));
+console.log(getTopCrates(stacks9000));
+console.log(getTopCrates(stacks9001));
