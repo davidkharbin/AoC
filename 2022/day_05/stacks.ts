@@ -4,7 +4,7 @@ const path = "./input.txt";
 
 const input: string[] = fs.readFileSync(path, "utf8").split("\n");
 
-// Steps for moving crates. For example: "move n crates from stack a to stack b"
+// Steps for moving crates. For example: [2, 5, 6]"move 2 crates from stack 5 to stack 6"
 const procedures: number[][] = input.map((line) => {
   return line
     .split(" ")
