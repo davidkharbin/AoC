@@ -25,6 +25,5 @@ function getMarker(packet: string, chunkLength: number) {
 const partOneMarker: number = getMarker(packet, 4);
 const partTwoMarker: number = getMarker(packet, 14);
 
-console.log(partOneMarker); 
-console.log(partTwoMarker); 
-
+console.log(partOneMarker);
+console.log(partTwoMarker);
