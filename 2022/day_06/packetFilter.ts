@@ -13,16 +13,17 @@ function testChunk(chunk: string) {
   return true;
 }
 
-function getMarker(packet: string) {
-  for (let i = 0; i < packet.length - 3; i++) {
-    if (testChunk(packet.slice(i, i + 4))) {
-      return i + 4;
+function getMarker(packet: string, chunkLength: number) {
+  for (let i = 0; i < packet.length - chunkLength; i++) {
+    if (testChunk(packet.slice(i, i + chunkLength))) {
+      return i + chunkLength;
     }
   }
   return 0;
 }
 
-const marker: number = getMarker(packet);
+const partOneMarker: number = getMarker(packet, 4);
+const partTwoMarker: number = getMarker(packet, 14);
 
-// Part one:
-console.log(marker);
+console.log(partOneMarker);
+console.log(partTwoMarker);
