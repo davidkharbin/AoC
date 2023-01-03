@@ -77,4 +77,4 @@ function testRight(trees: string[], column: number, s: string) {
   return true;
 }
 
-console.log(getVisibleTrees(input));
+console.log("Part One: ", getVisibleTrees(input));
