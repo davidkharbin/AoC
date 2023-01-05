@@ -1,33 +1,27 @@
 import { input } from "./input";
 
-// const input: string[] = [
-//   "30373",
-//   "25512", 
-//   "65332",
-//   "33549",
-//   "35390"];
-
 function getVisibleTrees(trees: string[] = input) {
   let total: number = (trees.length - 2) * 2 + trees[0].length * 2;
 
   for (let row = 1; row < trees.length - 1; row++) {
-    for (let column = 1; column < trees[row].length - 1; column++) {
-      if (testLeft(trees, column, trees[row])) {
+    for (let col = 1; col < trees[row].length - 1; col++) {
+      let strNum: string = trees[row][col];
+      if (testLeft(trees, row, col, strNum)) {
         total++;
         continue;
       }
 
-      if (testRight(trees, column, trees[row])) {
+      if (testRight(trees, row, col, strNum)) {
         total++;
         continue;
       }
 
-      if (testUp(trees, row, column, trees[row][column])) {
+      if (testUp(trees, row, col, strNum)) {
         total++;
         continue;
       }
 
-      if (testDown(trees, row, column, trees[row][column])) {
+      if (testDown(trees, row, col, strNum)) {
         total++;
         continue;
       }
@@ -48,8 +42,7 @@ function getScenicScore(trees: string[] = input) {
       down = getDownScene(trees, row, col, strNum);
       left = getLeftScene(trees, row, col, strNum);
       right = getRightScene(trees, row, col, strNum);
-      console.log('row: ', row, '\n', 'col: ', col)
-      console.log('strNum: ', strNum, up, down, left, right);
+
       let total: number = up * down * left * right;
       if (total > highest) highest = total;
     }
@@ -81,10 +74,11 @@ function getUpScene(
   return count || 1;
 }
 
-function testUp(trees: string[], row: number, column: number, sNum: string) {
+function testUp(trees: string[], row: number, col: number, current: string) {
   let up: number = row - 1;
   while (up >= 0) {
-    if (trees[up][column] >= sNum) {
+    let next: string = trees[up][col];
+    if (next >= current) {
       return false;
     }
     up--;
@@ -92,7 +86,6 @@ function testUp(trees: string[], row: number, column: number, sNum: string) {
 
   return true;
 }
-
 
 function getDownScene(
   trees: string[],
@@ -122,7 +115,8 @@ function getDownScene(
 function testDown(trees: string[], row: number, column: number, sNum: string) {
   let down: number = row + 1;
   while (down < trees.length) {
-    if (trees[down][column] >= sNum) {
+    let next: string = trees[down][column];
+    if (next >= sNum) {
       return false;
     }
     down++;
@@ -130,7 +124,6 @@ function testDown(trees: string[], row: number, column: number, sNum: string) {
 
   return true;
 }
-
 
 function getLeftScene(
   trees: string[],
@@ -157,18 +150,23 @@ function getLeftScene(
   return count || 1;
 }
 
-function testLeft(trees: string[], column: number, s: string) {
-  let l: number = column - 1;
-  while (l >= 0) {
-    if (s[l] >= s[column]) {
+function testLeft(
+  trees: string[],
+  row: number,
+  column: number,
+  current: string
+) {
+  let left: number = column - 1;
+  while (left >= 0) {
+    let next: string = trees[row][left]
+    if (next >= current) {
       return false;
     }
-    l--;
+    left--;
   }
 
   return true;
 }
-
 
 function getRightScene(
   trees: string[],
@@ -195,19 +193,23 @@ function getRightScene(
   return count || 1;
 }
 
-function testRight(trees: string[], column: number, s: string) {
-  let r = column + 1;
-  while (r < s.length) {
-    if (s[r] >= s[column]) {
+function testRight(
+  trees: string[],
+  row: number,
+  column: number,
+  current: string
+) {
+  let right = column + 1;
+  while (right < trees[0].length) {
+    let next: string = trees[row][right];
+    if (next >= current) {
       return false;
     }
-    r++;
+    right++;
   }
 
   return true;
 }
-
-
 
 console.log("Part One: ", getVisibleTrees(input));
 console.log("Part Two: ", getScenicScore(input));
