@@ -1,4 +1,5 @@
 const fs = require("node:fs");
+
 function main(): void {
   fs.readFile("input.txt", "utf8", (err: any, data: string) => {
     if (err) return;
@@ -16,7 +17,7 @@ function getPossibilities(games: string[]) {
   const formattedGames: string[][] = formatGames(games);
   for (let i: number = 0; i < formattedGames.length; i++) {
     if (isValidGame(formattedGames[i])) {
-      total+=i+1;
+      total += i + 1;
     }
   }
   return total;
@@ -41,7 +42,7 @@ function formatGames(strings: string[]) {
   let results: string[][] = [];
 
   for (let i: number = 0; i < strings.length; i++) {
-    let pairs: string[] = strings[i].split(": ").slice(1)[0].split(/;|,/);
+    const pairs: string[] = strings[i].split(": ").slice(1)[0].split(/;|,/);
     for (let j: number = 0; j < pairs.length; j++) {
       pairs[j] = pairs[j].trim().split(" ").reverse().join(" ");
     }
