@@ -7,20 +7,8 @@ function main(): void {
     const games: string[] = data.split("\n");
 
     const possibilities = getPossibilities(games);
-    console.log(possibilities);
+    const sumOfPowers = getSumOfPowers(games);
   });
-}
-
-function getPossibilities(games: string[]) {
-  let total = 0;
-
-  const formattedGames: string[][] = formatGames(games);
-  for (let i: number = 0; i < formattedGames.length; i++) {
-    if (isValidGame(formattedGames[i])) {
-      total += i + 1;
-    }
-  }
-  return total;
 }
 
 function isValidGame(game: string[]) {
@@ -49,7 +37,40 @@ function formatGames(strings: string[]) {
 
     results.push(pairs);
   }
+  console.log(results);
   return results;
+}
+
+function getPossibilities(games: string[]) {
+  let total = 0;
+
+  const formattedGames: string[][] = formatGames(games);
+  for (let i: number = 0; i < formattedGames.length; i++) {
+    if (isValidGame(formattedGames[i])) {
+      total += i + 1;
+    }
+  }
+  return total;
+}
+
+function getSumOfPowers(games: string[]) {
+  let sum: number = 0;
+
+  const formattedGames: string[][] = formatGames(games);
+  for (let i: number = 0; i < formattedGames.length; i++) {
+    let totals: Record<string, number> = { red: 1, green: 1, blue: 1 };
+
+    for (let j: number = 0; j < formattedGames[i].length; j++) {
+      const pair: string[] = formattedGames[i][j].split(" ");
+
+      if (Number(pair[1]) > totals[pair[0]]) {
+        totals[pair[0]] = Number(pair[1]);
+      }
+    }
+    sum += totals.red * totals.green * totals.blue;
+  }
+
+  return sum;
 }
 
 main();
