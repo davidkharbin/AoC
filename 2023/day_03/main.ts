@@ -6,6 +6,9 @@ function main(): void {
 
     const matrix: string[] = data.split("\n");
 
+		console.log(matrix)
 		
   });
 }
+
+main();
