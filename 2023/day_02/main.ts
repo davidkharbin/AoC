@@ -1,4 +1,4 @@
-const fs = require("node:fs");
+import fs from "node:fs";
 
 function main(): void {
   fs.readFile("input.txt", "utf8", (err: any, data: string) => {
